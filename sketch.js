@@ -1,35 +1,50 @@
-let sprite = 180
+let maballe;
+var deltaX=2;
+var deltaY=0.5;
+ 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-}
+  // put setup code here
+    createCanvas(640, 480);
+    maballe=new Balle(200,100); 
+   }
 
 function draw() {
-//création d'un tableau réduit pour pouvoir placer les éléments avec une taille de sprite précis.
-// test sans fonctionnement en objet, on a donc du basique, il faudra créer un fichier texte ou une base de données (préférence fichier texte) pour les données
-  background(51);
-  for(i=0;i<8;i++){
-    for(g=0;g<4;g++){
-      if (!(g == 0 & i != 0 & i != 7)){
-      square(i*sprite + 10*i + 200, g*sprite + 10*g + 100, sprite);
-      //affichage d'un element
-      textSize(60);
-      textFont('Georgia');
-      text("EL", i*sprite + 10*i + 255, g*sprite + 10*g + 220);
-      //affichage numero atomique
-      textSize(20);
-      text("N°A", i*sprite + 10*i + 210, g*sprite + 10*g + 130);
-      //affichage masse molaire
-      textSize(20);
-      text("M-El", i*sprite + 10*i + 325, g*sprite + 10*g + 130);
-      textSize(15);
-      text("nom element", i*sprite + 10*i + 250, g*sprite + 10*g + 260);
-    }
-
-    }
-  }
+  // put drawing code here
+  background(0);
+// affichage à l'écran de  l'instance créée
+  activer();
 }
 
-//
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+function activer(){
+    maballe.afficher();
+    maballe.deplacer();
+    maballe.rebondir();
+    maballe.gravite();
 }
+
+class Balle
+{ // constructeur des données constituant l'objet
+  // ces données sont nommées "propriétés"
+  	 constructor(xent,yent){
+        this.x=xent;
+  	    this.y=yent;
+    }
+  // déclaration de fonctions internes à 
+  // l'objet, elles sont nommées "méthodes"
+  	afficher()
+	{
+        fill(255);
+        ellipse(this.x,this.y,20,20);
+  	}
+    deplacer(){
+        this.x=this.x+deltaX;
+        this.y=this.y+deltaY;        
+    }
+    rebondir(){
+        if(this.x<=10 ||this.x>=width-10){deltaX=-deltaX;
+        }
+        if(this.y<=10 ||this.y>=height-10){deltaY=-deltaY;
+        }
+    }
+    gravite(){deltaY+=0.2;}
+ }
